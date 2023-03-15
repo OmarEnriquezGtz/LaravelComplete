@@ -45,7 +45,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-       return "this id is from show ".$id; //
+        return view('ShowData')-> with('id',$id);
+        //return "this id is from show ".$id; //
     }
 
     /**
@@ -81,8 +82,14 @@ class PostController extends Controller
     {
         //
     }
+
+    //no se mandan a lllamar por ser controllador tipo recurso
     public function contact(){
-        return view("contact");
+        return view('contact');
     }
+
+    public function showData(){
+        return view('ShowData');
 }
 
+}

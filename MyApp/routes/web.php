@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\LLamadaController;
+use App\Http\Controllers\OperacionesController;
+use App\Http\Controllers\NotesController;
+use App\Http\Controllers\ProductsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +17,7 @@ use App\Http\Controllers\LLamadaController;
 |
 */
 Route::get('/', function () {
-    return view("welcome");
+    return view("index");
 });
 
 Route::get('/contact', function () {
@@ -44,9 +47,32 @@ Route::resource('/post',PostController::class) ->names(
 );
 Route::get('/llamada',[LLamadaController::class,'index']);
 Route::get('/llamada/edit/{id}',[LLamadaController::class,'edit']);
+Route::get('/llamada/show/{nombre}/{edad}',[LLamadaController::class,'show']);
 
 
-Route::resource('/post/{id}',PostController::class);
-Route::resource('/post/{id}/edit',PostController::class);
+Route::get('/operaciones/suma/{n1}/{n2}',[OperacionesController::class,'suma']);
+Route::get('/operaciones/resta/{n1}/{n2}',[OperacionesController::class,'resta']);
+Route::get('/operaciones/multiplicacion/{n1}/{n2}',[OperacionesController::class,'multiplicacion']);
+Route::get('/operaciones/division/{n1}/{n2}',[OperacionesController::class,'division']);
+
+
+//Route::resource('/post/{id}',PostController::class);
+//Route::resource('/post/{id}/edit',PostController::class);
 
 Route::get('post/contactPost',[PostController::class,'contact']);
+
+Route::get('/post/contactPost','PostController@contact');
+Route::get('/post/showData','PostController@showData');
+
+Route::get('/llamada/blades',[LLamadaController::class,'blades']);
+
+Route::get('/indexProducts',[ProductsController::class,'index']);
+Route::get('/editProduct/{id}',[ProductsController::class,'edit']);
+Route::put('/updateProduct',[ProductsController::class,'update']);
+Route::get('/deleteProduct/{id}',[ProductsController::class,'delete']);
+
+
+
+Route::get('/Employees',[ProductsController::class,'listaEmployees']);
+Route::get('/editEmployees/{id}',[ProductsController::class,'editEmployees']);
+Route::put('/updateEmployees',[ProductsController::class,'updateEmployees']);
