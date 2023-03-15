@@ -32,12 +32,14 @@ class ProductsController extends Controller
         return View::make('employees.index')->with('employees',$employees); 
      }
      public function edit($id){
-      $product = Product::select('ProductID', 'ProductName', 'Categories.CategoryName', 'UnitPrice', 'UnitsInStock' )
+      $product = Product::select('ProductID', 'ProductName', 'Products.CategoryID','Categories.CategoryName', 'UnitPrice', 'UnitsInStock' )
   ->join('Categories', 'Products.CategoryID', '=', 'Categories.CategoryID')
   ->where('ProductID', $id)
   ->get();
+   $category = Categories::select('CategoryID','CategoryName')
+  ->get();
 
-   return View('products.edit',compact('product'));
+   return View('products.edit',compact('product','category'));
 
       }
 public function update(Request $request){
@@ -51,8 +53,8 @@ public function update(Request $request){
   $categoryID = Categories::select('CategoryID')
   ->where('CategoryName',$categoryName)
   ->get();
-
-   
+  $categoryID2 = $request->input('categoryID'); 
+  
 
   $unitPrice = $request->input('unitPrice'); 
   $unitsInStock = $request->input('unitsInStock'); 
@@ -62,7 +64,7 @@ public function update(Request $request){
  
   $validate =  $request->validate([
       'productName' => 'required', 
-      'categoryName'=> 'required', 
+      'categoryID'=> 'required', 
       'unitPrice' => 'required|min:0.01|max:10000',
       'unitsInStock' => 'required'
 
@@ -73,7 +75,7 @@ public function update(Request $request){
  $update = Product::where('ProductID', $id)
          //->get();
        ->update([ 'ProductName' => $productName,
-         // 'CategoryID' => $categoryID->CategoryID, 
+          'CategoryID' => $categoryID2, 
           'UnitPrice' => $unitPrice, 
           'UnitsInStock' => $unitsInStock
        ]);
