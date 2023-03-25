@@ -23,7 +23,9 @@
         <a href="/editEmployees/{{$employee->EmployeeID}}"> 
           <button class="btn btn-warning">Actualizar</button>
         </a> 
-        <button class="btn btn-danger">Eliminar</button>
+        <a href="/deleteEmployees/{{$employee->EmployeeID}}"> 
+         <button class="btn btn-danger">Eliminar</button>
+        </a>
       </td>
     </tr>
     @endforeach

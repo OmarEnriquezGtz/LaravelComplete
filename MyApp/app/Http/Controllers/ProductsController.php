@@ -20,6 +20,7 @@ class ProductsController extends Controller
          //$products = Product::all();
          $products = Product::select('ProductID','ProductName','CategoryName','UnitPrice','UnitsInStock')
             ->join('Categories','Products.CategoryID','=','Categories.CategoryID')
+            ->where('Discontinued',0)
             ->get();
 
          return View::make('products.index')->with('products',$products);
@@ -27,7 +28,7 @@ class ProductsController extends Controller
      public function listaEmployees()
      {
         $employees = Employees::select('EmployeeID','LastName','FirstName','Title')
-       
+       ->where('Discharged',0) 
         ->get();
         return View::make('employees.index')->with('employees',$employees); 
      }
@@ -104,18 +105,12 @@ public function update(Request $request){
         $firstname = $request->input('firstname'); 
         $title = $request->input('title'); 
       
-      
-      
-       
         $validate =  $request->validate([
             'lastName' => 'required', 
             'firstname'=> 'required', 
             'title' => 'required'
       
         ]);
-      
-      
-      
        $update = Employees::where('EmployeeID', $id)
                //->get();
              ->update([ 'LastName' => $lastName,
@@ -127,6 +122,37 @@ public function update(Request $request){
        return redirect('/Employees');       
         
       }
+      public function eliminaProducto($id){
+         $elimina=Product::where('ProductID', $id)-> first();
+         if($elimina){
+          $softDelete= Product::where('ProductID', $id)
+            ->update(['Discontinued'=>1]);
+         }
+         else{
+            return "Error";
+         }
+
+         if ($softDelete>=1)
+         { 
+            return redirect('/indexProducts');    
+         }
+      }
+      public function eliminaEmpleado($id){
+         $elimina=Employees::where('EmployeeID', $id)-> first();
+         if($elimina){
+          $softDelete= Employees::where('EmployeeID', $id)
+            ->update(['Discharged'=>1]);
+         }
+         else{
+            return "Error";
+         }
+
+         if ($softDelete>=1)
+         { 
+            return redirect('/Employees');    
+         }
+      }
+
 
 
 }

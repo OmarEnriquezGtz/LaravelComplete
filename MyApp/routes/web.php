@@ -6,6 +6,7 @@ use App\Http\Controllers\LLamadaController;
 use App\Http\Controllers\OperacionesController;
 use App\Http\Controllers\NotesController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ArchivosFotograficosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,10 +70,15 @@ Route::get('/llamada/blades',[LLamadaController::class,'blades']);
 Route::get('/indexProducts',[ProductsController::class,'index']);
 Route::get('/editProduct/{id}',[ProductsController::class,'edit']);
 Route::put('/updateProduct',[ProductsController::class,'update']);
-Route::get('/deleteProduct/{id}',[ProductsController::class,'delete']);
+Route::get('/deleteProduct/{id}',[ProductsController::class,'eliminaProducto']);
 
 
 
 Route::get('/Employees',[ProductsController::class,'listaEmployees']);
 Route::get('/editEmployees/{id}',[ProductsController::class,'editEmployees']);
 Route::put('/updateEmployees',[ProductsController::class,'updateEmployees']);
+Route::get('/deleteEmployees/{id}',[ProductsController::class,'eliminaEmpleado']);
+
+
+Route::get('/indexArchivosFotograficos',[ArchivosFotograficosController::class,'index']);
+Route::post('/guardarArchivoFotografico','App\Http\Controllers\ArchivosFotograficosController@store');
